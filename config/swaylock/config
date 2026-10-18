@@ -1,0 +1,25 @@
+daemonize
+show-failed-attempts
+image=~/.config/dwl/wallpaper.png
+scaling=fill
+font=MesloLGS Nerd Font
+indicator-radius=80
+inside-color=282828cc
+inside-clear-color=282828cc
+inside-ver-color=282828cc
+inside-wrong-color=282828cc
+ring-color=665c54
+ring-clear-color=d79921
+ring-ver-color=d79921
+ring-wrong-color=cc241d
+key-hl-color=d65d0e
+bs-hl-color=cc241d
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+separator-color=00000000
+text-color=ebdbb2
+text-clear-color=ebdbb2
+text-ver-color=ebdbb2
+text-wrong-color=cc241d

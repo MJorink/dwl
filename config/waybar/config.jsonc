@@ -1,0 +1,77 @@
+{
+  "layer": "top",
+  "position": "left",
+  "width": 34,
+  "spacing": 6,
+
+  "modules-left": ["dwl/tags", "tray"],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "custom/clipboard",
+    "wireplumber",
+    "battery",
+    "clock",
+    "custom/session"
+  ],
+
+  "dwl/tags": { "num-tags": 9 },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 6
+  },
+
+  "wireplumber": {
+    "format": "<span size='large'>{icon}</span>\n{volume}",
+    "justify": "center",
+    "format-muted": "<span size='large'>󰖁</span>",
+    "format-icons": ["󰕿", "󰖀", "󰕾"],
+    "on-click": "dwl-cmd mute",
+    "on-scroll-up": "dwl-cmd vol-up",
+    "on-scroll-down": "dwl-cmd vol-down"
+  },
+
+  "mpris": {
+    "format": "<span size='large'>󰎈</span>",
+    "format-paused": "<span size='large'>󰏤</span>",
+    "tooltip-format": "{artist} - {title}"
+  },
+
+  "cpu": {
+    "format": "<span size='large'>󰍛</span>\n{usage}%",
+    "justify": "center",
+    "interval": 2
+  },
+
+  "memory": {
+    "format": "<span size='large'></span>\n{percentage}%",
+    "justify": "center",
+    "interval": 2
+  },
+
+  "battery": {
+    "format": "<span size='large'>{icon}</span>\n{capacity}%",
+    "justify": "center",
+    "format-charging": "<span size='large'>󰂄</span>\n{capacity}%",
+    "format-icons": ["󰁺", "󰁼", "󰁾", "󰂀", "󰁹"],
+    "states": { "warning": 15 }
+  },
+
+  "clock": {
+    "format": "{:%H\n%M}",
+    "justify": "center",
+    "tooltip-format": "{:%A, %d/%m/%Y}"
+  },
+
+  "custom/clipboard": {
+    "format": "<span size='large'>󰅍</span>",
+    "on-click": "dwl-cmd clipboard",
+    "tooltip": false
+  },
+  "custom/session": {
+    "format": "<span size='large'>⏻</span>",
+    "on-click": "dwl-cmd session",
+    "tooltip": false
+  }
+}

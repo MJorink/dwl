@@ -1,0 +1,12 @@
+#!/bin/sh
+# Session entry point, run from ~/.profile on tty1 or from dwl.desktop
+
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+	XDG_RUNTIME_DIR="/tmp/$(id -u)-runtime-dir"
+	mkdir -pm 0700 "$XDG_RUNTIME_DIR"
+fi
+export XDG_RUNTIME_DIR
+export XDG_CURRENT_DESKTOP=dwl
+export XDG_SESSION_TYPE=wayland
+
+exec dbus-run-session dwl -s dwl-autostart

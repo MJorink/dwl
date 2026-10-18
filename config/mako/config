@@ -1,0 +1,19 @@
+font=MesloLGS Nerd Font 11
+anchor=top-center
+margin=8
+background-color=#282828
+text-color=#ebdbb2
+border-color=#d65d0e
+progress-color=over #d65d0e
+border-size=2
+border-radius=0
+default-timeout=5000
+
+# Volume/brightness popups from dwl-cmd
+[category=osd]
+default-timeout=1500
+border-color=#665c54
+
+[urgency=critical]
+border-color=#cc241d
+default-timeout=0

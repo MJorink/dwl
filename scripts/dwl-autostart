@@ -1,0 +1,12 @@
+#!/bin/sh
+# Startup command for dwl -s, see dwl-session
+
+dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+# No systemd user services on Alpine: pipewire, pipewire-pulse and wireplumber
+/usr/libexec/pipewire-launcher &
+waybar &
+wl-clip-persist --clipboard regular --reconnect-tries 0 &
+wl-paste --type text --watch cliphist store &
+swaybg -i ~/.config/dwl/wallpaper.png -m fill &
+mako &
+# swayidle's before-sleep hook needs logind, so dwl-cmd locks before suspending instead

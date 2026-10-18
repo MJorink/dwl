@@ -1,0 +1,31 @@
+* {
+  font-family: "MesloLGS Nerd Font Propo";
+  font-size: 12px;
+  font-weight: 500;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+window#waybar {
+  background: #282828;
+  color: #ebdbb2;
+}
+tooltip {
+  background: #282828;
+  border: 2px solid #d65d0e;
+}
+#tags button {
+  padding: 4px 0;
+  color: #a89984;
+  background: transparent;
+}
+#tags button.occupied { color: #ebdbb2; }
+#tags button.focused { background: #d65d0e; color: #282828; }
+#tags button.urgent { background: #cc241d; color: #282828; }
+#tray, #wireplumber, #mpris, #cpu, #memory,
+#custom-clipboard, #battery, #clock, #custom-session {
+  padding: 4px 0;
+}
+#wireplumber.muted, #battery.warning:not(.charging) {
+  color: #cc241d;
+}

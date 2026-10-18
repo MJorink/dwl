@@ -1,0 +1,54 @@
+#!/bin/sh
+# Keybind and bar-click actions: OSD, menus, screenshot
+
+menu() { fuzzel --dmenu --prompt "$1: " --lines "$2"; }
+osd() {
+	id=$(cat "$XDG_RUNTIME_DIR/dwl-osd-id" 2>/dev/null || echo 0)
+	notify-send -a dwl -c osd -h "int:value:$2" -r "$id" -p "$1" "$2%" > "$XDG_RUNTIME_DIR/dwl-osd-id"
+}
+vol() {
+	# wpctl prints "Volume: 0.45" or "Volume: 0.45 [MUTED]"
+	out=$(wpctl get-volume "$1")
+	case $out in *MUTED*) m=' muted' ;; *) m= ;; esac
+	osd "$2$m" "$(echo "$out" | awk '{ printf "%d", $2 * 100 + 0.5 }')"
+}
+bri() { osd Brightness $(($(brightnessctl get) * 100 / $(brightnessctl max))); }
+
+case $1 in
+	vol-up) wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ && vol @DEFAULT_AUDIO_SINK@ Volume ;;
+	vol-down) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && vol @DEFAULT_AUDIO_SINK@ Volume ;;
+	mute) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && vol @DEFAULT_AUDIO_SINK@ Volume ;;
+	mic-mute) wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && vol @DEFAULT_AUDIO_SOURCE@ Microphone ;;
+	bri-up) brightnessctl -q --min-value=5% set 5%+ && bri ;;
+	bri-down) brightnessctl -q --min-value=5% set 5%- && bri ;;
+	screenshot)
+		# Freeze the screen, select on the frozen frame, then unfreeze
+		# (wayfreeze runs the command via sh, so $PPID is wayfreeze)
+		exec wayfreeze --hide-cursor --after-freeze-cmd 'dwl-cmd screenshot-region; kill $PPID'
+		;;
+	screenshot-region)
+		f=~/Pictures/Screenshots/$(date +%F_%H-%M-%S).png
+		mkdir -p "${f%/*}"
+		region=$(slurp) && grim -g "$region" "$f" && wl-copy < "$f"
+		;;
+	clipboard)
+		sel=$(cliphist list | menu clipboard 15) && printf '%s' "$sel" | cliphist decode | wl-copy
+		;;
+	session)
+		# No logind here: power actions go through doas (nopass rules from install.sh)
+		case $(printf '%s\n' Lock Logout Suspend Reboot Shutdown | menu session 5) in
+			Lock) swaylock ;;
+			Logout) pkill -x dwl ;;
+			Suspend) swaylock && doas /usr/sbin/zzz ;; # swaylock daemonizes once locked
+			Reboot) doas /sbin/reboot ;;
+			Shutdown) doas /sbin/poweroff ;;
+		esac
+		;;
+	control)
+		case $(printf '%s\n' Wi-Fi Audio | menu control 2) in
+			Wi-Fi) foot impala ;;
+			Audio) foot wiremix ;;
+		esac
+		;;
+	*) echo "usage: dwl-cmd vol-up|vol-down|mute|mic-mute|bri-up|bri-down|screenshot|clipboard|session|control" >&2; exit 1 ;;
+esac
