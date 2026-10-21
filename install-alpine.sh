@@ -38,9 +38,10 @@ doas apk add \
 	wl-clipboard grim slurp brightnessctl libnotify \
 	pipewire pipewire-pulse wireplumber \
 	iwd iwd-openrc impala openresolv \
+	bluez bluez-openrc pipewire-spa-bluez \
 	xdg-desktop-portal xdg-desktop-portal-wlr \
 	font-meslo-nerd zzz yazi yazi-cli lazygit \
-	cliphist@testing wl-clip-persist@testing wiremix@testing
+	cliphist@testing wl-clip-persist@testing wiremix@testing bluetui@testing
 
 # brightnessctl's udev rule only applies on device add, so replay the events
 # instead of needing a reboot before the brightness keys work
@@ -69,7 +70,7 @@ fi
 # --- System services and permissions -------------------------------------------
 
 say "Enabling services"
-for svc in dbus seatd; do
+for svc in dbus seatd bluetooth; do
 	doas rc-update add "$svc" default >/dev/null 2>&1 || true
 	doas rc-service "$svc" start >/dev/null 2>&1 || true
 done

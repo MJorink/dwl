@@ -45,8 +45,9 @@ case $1 in
 		esac
 		;;
 	control)
-		case $(printf '%s\n' Wi-Fi Audio | menu control 2) in
+		case $(printf '%s\n' Wi-Fi Bluetooth Audio | menu control 3) in
 			Wi-Fi) foot impala ;;
+			Bluetooth) foot bluetui ;;
 			Audio) foot wiremix ;;
 		esac
 		;;
